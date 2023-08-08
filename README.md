@@ -11,6 +11,8 @@ Have you seen the movie "Finding Nemo"? If you have, you might remember the scen
 
 APIs are like that, aren't they?
 
+Documenting the APIs is like putting labels on the pipes. But, it is a tedious task. And, it is not easy to keep the documentation up-to-date. So, we decided to automate the process of documenting APIs. We call it **ApiSWYMmer**.
+
 ## Features
 
 1. **Portable**: Generate documentation from Swagger Specs on the fly - no installation required.
