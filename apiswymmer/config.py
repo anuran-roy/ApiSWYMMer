@@ -39,7 +39,9 @@ class TemplatingEnv:
     def render(
         self,
         location: str,
-        context: Optional[Dict] = {},
+        context: Optional[Dict | List] = {},
+        multipleContext: Optional[bool] = False,
+        multipleContextKey: Optional[str] = None,
         verbose: Optional[bool] = True,
     ) -> str:
         """
@@ -50,7 +52,12 @@ class TemplatingEnv:
         if verbose:
             rich_print(f"Context dictionary = {context}")
         required_template = self.environment.get_template(location)
-        return required_template.render(**context, **self.template_config)
+        if multipleContext:
+            return required_template.render(
+                {multipleContextKey: context}, **self.template_config
+            )
+        else:
+            return required_template.render(**context, **self.template_config)
 
 
 TEMPLATE_ENV = TemplatingEnv()
@@ -58,6 +65,8 @@ TEMPLATE_ENV = TemplatingEnv()
 TEMPLATE_MAPPING: Dict[str, Any] = {
     "archetypes": {
         "paths": {"template": "components/paths.html", "objects": []},
+        "get": {"template": "components/get.html", "objects": []},
+        "post": {"template": "components/post.html", "objects": []},
         "_default": {"template": "base.html", "objects": []},
     }
 }

@@ -1,0 +1,908 @@
+{
+    "openapi": "3.0.2",
+    "info": {
+        "title": "MapSec API Server",
+        "description": "A one-stop tool for scanning your IoT devices connected on your network",
+        "version": "0.1.0"
+    },
+    "paths": {
+        "/servertest": {
+            "get": {
+                "summary": "Sayhello",
+                "operationId": "sayHello_servertest_get",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Request"
+                        },
+                        "name": "request",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/analytics/scanhistory/": {
+            "get": {
+                "tags": [
+                    "API v1",
+                    "Analytics API"
+                ],
+                "summary": "Scan History Analytics",
+                "operationId": "scan_history_analytics_api_v1_analytics_scanhistory__get",
+                "parameters": [
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Group By",
+                            "type": "string",
+                            "default": "time"
+                        },
+                        "name": "group_by",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Freq",
+                            "type": "string",
+                            "default": "D"
+                        },
+                        "name": "freq",
+                        "in": "query"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "title": "Threat Type",
+                                "anyOf": [
+                                    {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    {
+                                        "type": "string"
+                                    }
+                                ],
+                                "default": "all"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/vulnerabilities/scan": {
+            "post": {
+                "tags": [
+                    "API v1",
+                    "Vulnerability Scanner"
+                ],
+                "summary": "Scan",
+                "operationId": "scan_api_v1_vulnerabilities_scan_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ScanRequestModel"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ReportModel"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/vulnerabilities/get_count": {
+            "get": {
+                "tags": [
+                    "API v1",
+                    "Vulnerability Scanner"
+                ],
+                "summary": "Get Count",
+                "operationId": "get_count_api_v1_vulnerabilities_get_count_get",
+                "parameters": [
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Page",
+                            "type": "integer",
+                            "default": 1
+                        },
+                        "name": "page",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/vulnerabilities/peek/{scan_id}": {
+            "get": {
+                "tags": [
+                    "API v1",
+                    "Vulnerability Scanner"
+                ],
+                "summary": "Peek Log",
+                "operationId": "peek_log_api_v1_vulnerabilities_peek__scan_id__get",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Scan Id",
+                            "type": "string"
+                        },
+                        "name": "scan_id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/vulnerabilities/delete/{scan_id}": {
+            "delete": {
+                "tags": [
+                    "API v1",
+                    "Vulnerability Scanner"
+                ],
+                "summary": "Delete Log",
+                "operationId": "delete_log_api_v1_vulnerabilities_delete__scan_id__delete",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Scan Id",
+                            "type": "string"
+                        },
+                        "name": "scan_id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/vulnerabilities/info/{scan_id}": {
+            "get": {
+                "tags": [
+                    "API v1",
+                    "Vulnerability Scanner"
+                ],
+                "summary": "Get Log",
+                "operationId": "get_log_api_v1_vulnerabilities_info__scan_id__get",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Scan Id",
+                            "type": "string"
+                        },
+                        "name": "scan_id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/credentials/add": {
+            "post": {
+                "tags": [
+                    "API v1",
+                    "Credentials Scanner"
+                ],
+                "summary": "Add Credential",
+                "operationId": "add_credential_api_v1_credentials_add_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CredentialModel"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/credentials/": {
+            "get": {
+                "tags": [
+                    "API v1",
+                    "Credentials Scanner"
+                ],
+                "summary": "Get Credentials",
+                "operationId": "get_credentials_api_v1_credentials__get",
+                "parameters": [
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Credtype",
+                            "enum": [
+                                "others",
+                                "email",
+                                "username",
+                                "phone",
+                                "domains",
+                                "all"
+                            ],
+                            "type": "string",
+                            "default": "all"
+                        },
+                        "name": "credType",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "title": "Response Get Credentials Api V1 Credentials  Get",
+                                    "type": "object",
+                                    "additionalProperties": {
+                                        "anyOf": [
+                                            {
+                                                "type": "boolean"
+                                            },
+                                            {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "object"
+                                                }
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/credentials/delete/{id}": {
+            "delete": {
+                "tags": [
+                    "API v1",
+                    "Credentials Scanner"
+                ],
+                "summary": "Delete Credential",
+                "operationId": "delete_credential_api_v1_credentials_delete__id__delete",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Id",
+                            "type": "string"
+                        },
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "title": "Response Delete Credential Api V1 Credentials Delete  Id  Delete",
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/credentials/scan": {
+            "get": {
+                "tags": [
+                    "API v1",
+                    "Credentials Scanner"
+                ],
+                "summary": "Scan Leaked Credentials",
+                "operationId": "scan_leaked_credentials_api_v1_credentials_scan_get",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Scope",
+                            "enum": [
+                                "auto",
+                                "sources",
+                                "password",
+                                "domain",
+                                "dehash"
+                            ],
+                            "type": "string"
+                        },
+                        "name": "scope",
+                        "in": "query"
+                    },
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Credential Type",
+                            "enum": [
+                                "others",
+                                "email",
+                                "username",
+                                "phone",
+                                "domains"
+                            ],
+                            "type": "string"
+                        },
+                        "name": "credential_type",
+                        "in": "query"
+                    },
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Credential",
+                            "type": "string"
+                        },
+                        "name": "credential",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Add New Credential",
+                            "type": "boolean",
+                            "default": false
+                        },
+                        "name": "add_new_credential",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Mode",
+                            "enum": [
+                                "online",
+                                "offline"
+                            ],
+                            "type": "string",
+                            "default": "offline"
+                        },
+                        "name": "mode",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Debug",
+                            "type": "boolean",
+                            "default": true
+                        },
+                        "name": "debug",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "title": "Response Scan Leaked Credentials Api V1 Credentials Scan Get",
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/credentials/scans": {
+            "get": {
+                "tags": [
+                    "API v1",
+                    "Credentials Scanner"
+                ],
+                "summary": "Get Credential Scans",
+                "operationId": "get_credential_scans_api_v1_credentials_scans_get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "title": "Response Get Credential Scans Api V1 Credentials Scans Get",
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/credentials/scan/{credential}": {
+            "get": {
+                "tags": [
+                    "API v1",
+                    "Credentials Scanner"
+                ],
+                "summary": "Get Credential Scans",
+                "operationId": "get_credential_scans_api_v1_credentials_scan__credential__get",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Credential",
+                            "type": "string"
+                        },
+                        "name": "credential",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "title": "Response Get Credential Scans Api V1 Credentials Scan  Credential  Get",
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/data/delete_all_data": {
+            "delete": {
+                "tags": [
+                    "API v1",
+                    "Data Operations API"
+                ],
+                "summary": "Delete All",
+                "description": "Delete all data from the database.",
+                "operationId": "delete_all_api_v1_data_delete_all_data_delete",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "title": "Response Delete All Api V1 Data Delete All Data Delete",
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/data/sync_from_file": {
+            "post": {
+                "tags": [
+                    "API v1",
+                    "Data Operations API"
+                ],
+                "summary": "Sync Data From File",
+                "operationId": "sync_data_from_file_api_v1_data_sync_from_file_post",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Body_sync_data_from_file_api_v1_data_sync_from_file_post"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "202": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "title": "Response Sync Data From File Api V1 Data Sync From File Post",
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/data/sync_to_file": {
+            "get": {
+                "tags": [
+                    "API v1",
+                    "Data Operations API"
+                ],
+                "summary": "Export File",
+                "operationId": "export_file_api_v1_data_sync_to_file_get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Body_sync_data_from_file_api_v1_data_sync_from_file_post": {
+                "title": "Body_sync_data_from_file_api_v1_data_sync_from_file_post",
+                "required": [
+                    "uploadFile"
+                ],
+                "type": "object",
+                "properties": {
+                    "uploadFile": {
+                        "title": "Uploadfile",
+                        "type": "string",
+                        "format": "binary"
+                    }
+                }
+            },
+            "CredentialModel": {
+                "title": "CredentialModel",
+                "required": [
+                    "credential",
+                    "credential_type",
+                    "leaked"
+                ],
+                "type": "object",
+                "properties": {
+                    "credential": {
+                        "title": "Credential",
+                        "type": "string"
+                    },
+                    "credential_type": {
+                        "title": "Credential Type",
+                        "enum": [
+                            "others",
+                            "email",
+                            "username",
+                            "phone",
+                            "domains"
+                        ],
+                        "type": "string"
+                    },
+                    "leaked": {
+                        "title": "Leaked",
+                        "type": "boolean"
+                    },
+                    "leaked_date": {
+                        "title": "Leaked Date",
+                        "type": "string"
+                    }
+                }
+            },
+            "HTTPValidationError": {
+                "title": "HTTPValidationError",
+                "type": "object",
+                "properties": {
+                    "detail": {
+                        "title": "Detail",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ValidationError"
+                        }
+                    }
+                }
+            },
+            "ReportModel": {
+                "title": "ReportModel",
+                "required": [
+                    "id",
+                    "report",
+                    "name",
+                    "description",
+                    "timestamp",
+                    "target_device"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "title": "Id",
+                        "type": "string"
+                    },
+                    "report": {
+                        "title": "Report",
+                        "type": "object"
+                    },
+                    "name": {
+                        "title": "Name",
+                        "type": "string"
+                    },
+                    "description": {
+                        "title": "Description",
+                        "type": "string"
+                    },
+                    "timestamp": {
+                        "title": "Timestamp",
+                        "type": "string"
+                    },
+                    "target_device": {
+                        "title": "Target Device",
+                        "type": "object"
+                    }
+                }
+            },
+            "ScanRequestModel": {
+                "title": "ScanRequestModel",
+                "required": [
+                    "scope",
+                    "details"
+                ],
+                "type": "object",
+                "properties": {
+                    "scope": {
+                        "title": "Scope",
+                        "type": "string"
+                    },
+                    "details": {
+                        "title": "Details",
+                        "type": "object"
+                    },
+                    "name": {
+                        "title": "Name",
+                        "type": "string"
+                    },
+                    "description": {
+                        "title": "Description",
+                        "type": "string"
+                    },
+                    "timestamp": {
+                        "title": "Timestamp",
+                        "type": "string"
+                    },
+                    "target_device": {
+                        "title": "Target Device",
+                        "type": "object"
+                    }
+                }
+            },
+            "ValidationError": {
+                "title": "ValidationError",
+                "required": [
+                    "loc",
+                    "msg",
+                    "type"
+                ],
+                "type": "object",
+                "properties": {
+                    "loc": {
+                        "title": "Location",
+                        "type": "array",
+                        "items": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "integer"
+                                }
+                            ]
+                        }
+                    },
+                    "msg": {
+                        "title": "Message",
+                        "type": "string"
+                    },
+                    "type": {
+                        "title": "Error Type",
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }
+}
