@@ -1,0 +1,19 @@
+# Python Files
+
+**/*venv*
+**/__pycache__
+**/*.py[cod]
+**/*.egg-info
+**/.eggs
+
+
+# Jupyter files
+
+**/*.ipynb_checkpoints
+**/*.ipynb
+
+# IDE files
+
+**/.idea
+**/.vscode
+**/.vs
