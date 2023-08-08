@@ -1,8 +1,11 @@
 # ApiSWYMmer
 
-<p align="center"><img src="./assets/apiswymmer-logo.png" />
-
-Swim through APIs with ease!
+<p align="center">
+<div>
+<a href="https://app.codacy.com/gh/anuran-roy/ApiSWYMMer/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade"><img src="https://app.codacy.com/project/badge/Grade/9141ebebf4664ca79c4ee3f187ddebef"/></a>
+</div>
+<img src="./assets/apiswymmer-logo.png" />
+<div>Swim through APIs with ease!</div>
 </p>
 
 ## What is API SWYMmer?
