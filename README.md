@@ -1,9 +1,9 @@
 # ApiSWYMmer
 
-<center><img src="./assets/apiswymmer-logo.png" />
+<p align="center"><img src="./assets/apiswymmer-logo.png" />
 
 Swim through APIs with ease!
-</center>
+</p>
 
 ## What is API SWYMmer?
 
